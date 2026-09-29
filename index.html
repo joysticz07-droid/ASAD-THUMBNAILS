@@ -30,6 +30,108 @@ ul{color:#bbb;line-height:1.8;padding-left:20px}
 .contact{background:#11131a;border:1px solid #252832;border-radius:20px;padding:28px;text-align:center}
 footer{text-align:center;color:#666;padding:25px}
 .small{font-size:13px;color:#777}
+  /* ===== CROW NPIX PREMIUM ANIMATIONS ===== */
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Cards */
+.card {
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  transform-style: preserve-3d;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: translateY(-10px) scale(1.025);
+  box-shadow: 0 18px 45px rgba(255, 70, 170, 0.35);
+}
+
+/* Card click */
+.card.clicked {
+  animation: cardClick 0.45s ease;
+}
+
+@keyframes cardClick {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(0.94) rotate(-1deg); }
+  100% { transform: scale(1); }
+}
+
+/* Buttons */
+button,
+.btn,
+a.btn {
+  transition: transform 0.2s ease, box-shadow 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+button:hover,
+.btn:hover,
+a.btn:hover {
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: 0 0 25px rgba(255, 70, 170, 0.55);
+}
+
+button:active,
+.btn:active,
+a.btn:active {
+  transform: scale(0.92);
+}
+
+/* Click ripple */
+.ripple {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.65);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  animation: ripple 0.65s ease-out forwards;
+  z-index: 99999;
+}
+
+@keyframes ripple {
+  from {
+    width: 10px;
+    height: 10px;
+    opacity: 0.8;
+  }
+  to {
+    width: 180px;
+    height: 180px;
+    opacity: 0;
+  }
+}
+
+/* Section entrance */
+.section {
+  animation: sectionIn 0.8s ease both;
+}
+
+@keyframes sectionIn {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Images */
+.card img {
+  transition: transform 0.5s ease, filter 0.5s ease;
+}
+
+.card:hover img {
+  transform: scale(1.04);
+  filter: brightness(1.08) saturate(1.15);
+}
 </style>
 </head>
 <body>
@@ -99,5 +201,30 @@ footer{text-align:center;color:#666;padding:25px}
 
 <footer>© 2026 CrownPix • Gaming Thumbnail Designer</footer>
 </div>
+  <script>
+/* Click ripple everywhere */
+document.addEventListener("click", function(e) {
+  const ripple = document.createElement("span");
+  ripple.className = "ripple";
+
+  ripple.style.left = e.clientX + "px";
+  ripple.style.top = e.clientY + "px";
+
+  document.body.appendChild(ripple);
+
+  setTimeout(() => ripple.remove(), 700);
+});
+
+/* Card click animation */
+document.querySelectorAll(".card").forEach(card => {
+  card.addEventListener("click", () => {
+    card.classList.remove("clicked");
+
+    void card.offsetWidth;
+
+    card.classList.add("clicked");
+  });
+});
+</script>
 </body>
 </html>
