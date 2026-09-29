@@ -697,9 +697,150 @@ img {
     display: none;
   }
 }
+  /* ===== CROWNPix CINEMATIC INTRO ===== */
+
+#cp-intro {
+  position: fixed;
+  inset: 0;
+  background: #050509;
+  z-index: 999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  overflow: hidden;
+  transition: opacity 1s ease, visibility 1s ease;
+}
+
+#cp-intro.hide {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.cp-crown {
+  font-size: 75px;
+  animation: crownIntro 1.4s ease forwards,
+             crownFloat 3s ease-in-out 1.4s infinite;
+  filter: drop-shadow(0 0 25px rgba(255,70,190,.8));
+}
+
+.cp-title {
+  margin-top: 10px;
+  font-size: clamp(42px, 8vw, 90px);
+  font-weight: 900;
+  letter-spacing: 8px;
+  color: white;
+  text-shadow:
+    0 0 10px rgba(255,70,190,.8),
+    0 0 35px rgba(255,70,190,.5);
+  animation: titleIntro 1.2s .3s ease both;
+}
+
+.cp-subtitle {
+  margin-top: 8px;
+  color: #aaa;
+  letter-spacing: 5px;
+  font-size: 13px;
+  animation: subtitleIntro 1s 1s ease both;
+}
+
+.cp-loader {
+  width: min(300px, 70vw);
+  height: 5px;
+  margin-top: 35px;
+  background: #222;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.cp-loader-bar {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg,#ff3cac,#784ba0);
+  box-shadow: 0 0 20px #ff3cac;
+  animation: loadBar 2.8s ease forwards;
+}
+
+.cp-enter {
+  margin-top: 22px;
+  color: #888;
+  font-size: 11px;
+  letter-spacing: 3px;
+  animation: blinkText 1.2s infinite;
+}
+
+@keyframes crownIntro {
+  from {
+    opacity: 0;
+    transform: scale(.3) rotate(-20deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0);
+  }
+}
+
+@keyframes crownFloat {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes titleIntro {
+  from {
+    opacity: 0;
+    transform: translateY(35px);
+    letter-spacing: 25px;
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    letter-spacing: 8px;
+  }
+}
+
+@keyframes subtitleIntro {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes loadBar {
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blinkText {
+  50% {
+    opacity: .35;
+  }
+}
 </style>
 </head>
 <body>
+  <div id="cp-intro">
+
+  <div class="cp-crown">👑</div>
+
+  <div class="cp-title">CROWNPix</div>
+
+  <div class="cp-subtitle">
+    GAMING • THUMBNAILS • CREATIVE
+  </div>
+
+  <div class="cp-loader">
+    <div class="cp-loader-bar"></div>
+  </div>
+
+  <div class="cp-enter">
+    ENTERING THE PIXEL WORLD...
+  </div>
+
+</div>
 <div class="wrap">
 
 <section class="hero">
@@ -939,6 +1080,21 @@ document.addEventListener("mousemove", (e) => {
     item.style.marginTop = y * strength + "px";
 
   });
+
+});
+    /* ===== CROWNPix INTRO ===== */
+
+window.addEventListener("load", () => {
+
+  setTimeout(() => {
+
+    const intro = document.getElementById("cp-intro");
+
+    if (intro) {
+      intro.classList.add("hide");
+    }
+
+  }, 3200);
 
 });
 </script>
