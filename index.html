@@ -605,6 +605,98 @@ img {
     opacity: 1 !important;
   }
 }
+  /* ===== FLOATING GAMING WORLD ===== */
+
+.floating-world {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 5;
+}
+
+.float-item {
+  position: absolute;
+  font-size: 34px;
+  filter: drop-shadow(0 0 12px rgba(255,70,190,.45));
+  animation: gamerFloat 7s ease-in-out infinite;
+  user-select: none;
+}
+
+@keyframes gamerFloat {
+  0%,100% {
+    transform: translate3d(0,0,0) rotate(-8deg);
+  }
+
+  50% {
+    transform: translate3d(25px,-55px,0) rotate(10deg);
+  }
+}
+
+.float-item:nth-child(1) {
+  left: 5%;
+  top: 25%;
+  animation-duration: 6s;
+}
+
+.float-item:nth-child(2) {
+  right: 5%;
+  top: 35%;
+  animation-duration: 8s;
+}
+
+.float-item:nth-child(3) {
+  left: 8%;
+  top: 70%;
+  animation-duration: 7s;
+}
+
+.float-item:nth-child(4) {
+  right: 9%;
+  top: 75%;
+  animation-duration: 9s;
+}
+
+.float-item:nth-child(5) {
+  left: 48%;
+  top: 18%;
+  animation-duration: 5s;
+  font-size: 20px;
+}
+
+.float-item:nth-child(6) {
+  right: 25%;
+  top: 60%;
+  animation-duration: 6s;
+  font-size: 22px;
+}
+
+/* Mouse-follow glow */
+.cursor-glow {
+  position: fixed;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(
+    circle,
+    rgba(255,60,180,.12),
+    transparent 70%
+  );
+  transform: translate(-50%,-50%);
+  z-index: 4;
+  transition: left .15s ease, top .15s ease;
+}
+
+@media (max-width: 700px) {
+  .float-item {
+    font-size: 24px;
+  }
+
+  .cursor-glow {
+    display: none;
+  }
+}
 </style>
 </head>
 <body>
@@ -789,6 +881,64 @@ window.addEventListener("scroll", () => {
     hero.style.transform =
       `translateY(${y * 0.12}px)`;
   }
+
+});
+    /* ===== CROWNPix FLOATING GAMING WORLD ===== */
+
+const world = document.createElement("div");
+world.className = "floating-world";
+
+const gamingItems = [
+  "👾",
+  "⚔️",
+  "👑",
+  "💎",
+  "✦",
+  "✨"
+];
+
+gamingItems.forEach((item) => {
+  const el = document.createElement("div");
+
+  el.className = "float-item";
+  el.textContent = item;
+
+  world.appendChild(el);
+});
+
+document.body.appendChild(world);
+
+
+/* ===== MOUSE GLOW ===== */
+
+const cursorGlow = document.createElement("div");
+cursorGlow.className = "cursor-glow";
+
+document.body.appendChild(cursorGlow);
+
+document.addEventListener("mousemove", (e) => {
+  cursorGlow.style.left = e.clientX + "px";
+  cursorGlow.style.top = e.clientY + "px";
+});
+
+
+/* ===== FLOATING ITEMS FOLLOW MOUSE ===== */
+
+document.addEventListener("mousemove", (e) => {
+
+  const items = document.querySelectorAll(".float-item");
+
+  const x = (e.clientX / window.innerWidth - 0.5) * 20;
+  const y = (e.clientY / window.innerHeight - 0.5) * 20;
+
+  items.forEach((item, index) => {
+
+    const strength = (index + 1) * 0.15;
+
+    item.style.marginLeft = x * strength + "px";
+    item.style.marginTop = y * strength + "px";
+
+  });
 
 });
 </script>
