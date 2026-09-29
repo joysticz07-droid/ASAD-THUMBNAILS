@@ -1025,6 +1025,71 @@ img {
     font-size: 60px;
   }
 }
+  /* ===== CROWNPix WEBSITE REVEAL ===== */
+
+body {
+  overflow-x: hidden;
+}
+
+.wrap {
+  opacity: 0;
+  transform: translateY(35px) scale(.97);
+  filter: blur(10px);
+  animation: websiteReveal 1.4s 3.7s cubic-bezier(.16,1,.3,1) forwards;
+}
+
+@keyframes websiteReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(35px) scale(.97);
+    filter: blur(10px);
+  }
+
+  60% {
+    opacity: 1;
+    transform: translateY(-5px) scale(1.01);
+    filter: blur(0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/* Cinematic light sweep */
+.wrap::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: -30%;
+  width: 25%;
+  height: 100%;
+  z-index: 999;
+  pointer-events: none;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,60,190,.12),
+    rgba(255,255,255,.18),
+    transparent
+  );
+
+  transform: skewX(-15deg);
+  animation: revealSweep 1.6s 4s ease-out forwards;
+}
+
+@keyframes revealSweep {
+  0% {
+    left: -30%;
+  }
+
+  100% {
+    left: 130%;
+  }
+}
 </style>
 </head>
 <body>
