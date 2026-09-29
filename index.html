@@ -1440,6 +1440,22 @@ document.addEventListener("mousemove", (e) => {
   }, 4200);
 
 });
+    const whoosh = new Audio("whoosh.mp3.wav");
+const impact = new Audio("impact.mp3.mp3");
+
+window.addEventListener("load", () => {
+
+  setTimeout(() => {
+    whoosh.currentTime = 0;
+    whoosh.play().catch(() => {});
+  }, 1200);
+
+  setTimeout(() => {
+    impact.currentTime = 0;
+    impact.play().catch(() => {});
+  }, 3900);
+
+});
 </script>
 </body>
 </html>
