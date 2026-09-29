@@ -551,6 +551,60 @@ img {
     transform: scale(1);
   }
 }
+  /* ===== CINEMATIC SCROLL EFFECTS ===== */
+
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(70px) scale(.96);
+  filter: blur(6px);
+  transition:
+    opacity .9s ease,
+    transform 1s cubic-bezier(.16,1,.3,1),
+    filter .9s ease;
+}
+
+.scroll-reveal.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+}
+
+/* Cards enter from different directions */
+.scroll-card {
+  opacity: 0;
+  transform: translateY(55px) scale(.94);
+  transition:
+    opacity .7s ease,
+    transform .8s cubic-bezier(.16,1,.3,1);
+}
+
+.scroll-card.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Cinematic glow while entering */
+.scroll-reveal.show::after {
+  opacity: 1;
+}
+
+/* Hero parallax */
+.hero {
+  transition: transform .15s linear;
+  will-change: transform;
+}
+
+/* Prevent animation when user prefers reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .scroll-reveal,
+  .scroll-card,
+  .hero {
+    transition: none !important;
+    transform: none !important;
+    filter: none !important;
+    opacity: 1 !important;
+  }
+}
 </style>
 </head>
 <body>
@@ -683,6 +737,60 @@ for (let i = 0; i < 25; i++) {
 
   document.body.appendChild(particle);
 }
+    /* ===== CINEMATIC SCROLL REVEAL ===== */
+
+const revealItems = document.querySelectorAll(
+  ".section, .contact, footer"
+);
+
+revealItems.forEach(item => {
+  item.classList.add("scroll-reveal");
+});
+
+
+const cards = document.querySelectorAll(".card");
+
+cards.forEach((card, index) => {
+  card.classList.add("scroll-card");
+  card.style.transitionDelay = (index % 4) * 0.12 + "s";
+});
+
+
+const observer = new IntersectionObserver(
+  (entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("show");
+      }
+    });
+  },
+  {
+    threshold: 0.15
+  }
+);
+
+
+document
+  .querySelectorAll(".scroll-reveal, .scroll-card")
+  .forEach(item => observer.observe(item));
+
+
+/* ===== HERO PARALLAX ===== */
+
+const hero = document.querySelector(".hero");
+
+window.addEventListener("scroll", () => {
+
+  if (!hero) return;
+
+  const y = window.scrollY;
+
+  if (y < window.innerHeight) {
+    hero.style.transform =
+      `translateY(${y * 0.12}px)`;
+  }
+
+});
 </script>
 </body>
 </html>
