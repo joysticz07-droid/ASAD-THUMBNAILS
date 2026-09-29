@@ -716,6 +716,33 @@ img {
   visibility: hidden;
   pointer-events: none;
 }
+  /* ===== EPIC INTRO EXIT ===== */
+
+#cp-intro.cinematic-exit {
+  animation: introCinematicExit .65s cubic-bezier(.76,0,.24,1) forwards;
+}
+
+@keyframes introCinematicExit {
+
+  0% {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+
+  45% {
+    opacity: 1;
+    transform: scale(1.08);
+    filter: blur(2px);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.25);
+    filter: blur(18px);
+  }
+
+}
 
 /* Neon background */
 #cp-intro::before {
@@ -1392,16 +1419,22 @@ document.addEventListener("mousemove", (e) => {
   });
 
 });
-    /* ===== CROWNPix INTRO ===== */
-
-window.addEventListener("load", () => {
+ window.addEventListener("load", () => {
 
   setTimeout(() => {
 
     const intro = document.getElementById("cp-intro");
 
     if (intro) {
-      intro.classList.add("hide");
+
+      // Cinematic exit
+      intro.classList.add("cinematic-exit");
+
+      // Reveal website after the exit begins
+      setTimeout(() => {
+        intro.classList.add("hide");
+      }, 650);
+
     }
 
   }, 4200);
