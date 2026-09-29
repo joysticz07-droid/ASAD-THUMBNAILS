@@ -697,19 +697,18 @@ img {
     display: none;
   }
 }
-  /* ===== CROWNPix CINEMATIC INTRO ===== */
+  /* ===== CROWNPix CINEMATIC INTRO V2 ===== */
 
 #cp-intro {
   position: fixed;
   inset: 0;
-  background: #050509;
   z-index: 999999;
+  background: #030305;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
   overflow: hidden;
-  transition: opacity 1s ease, visibility 1s ease;
+  transition: opacity .9s ease, visibility .9s ease;
 }
 
 #cp-intro.hide {
@@ -718,126 +717,229 @@ img {
   pointer-events: none;
 }
 
-.cp-crown {
-  font-size: 75px;
-  animation: crownIntro 1.4s ease forwards,
-             crownFloat 3s ease-in-out 1.4s infinite;
-  filter: drop-shadow(0 0 25px rgba(255,70,190,.8));
+/* Neon background */
+#cp-intro::before {
+  content: "";
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255,30,170,.22),
+    transparent 68%
+  );
+  animation: introOrb 4s ease-in-out infinite alternate;
 }
 
+#cp-intro::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+  background-size: 45px 45px;
+  mask-image: linear-gradient(to bottom, transparent, black, transparent);
+}
+
+/* Main content */
+.cp-intro-content {
+  position: relative;
+  z-index: 5;
+  text-align: center;
+}
+
+/* Crown */
+.cp-crown {
+  font-size: 82px;
+  filter:
+    drop-shadow(0 0 12px #ff3cac)
+    drop-shadow(0 0 45px rgba(255,60,190,.65));
+  animation:
+    crownDrop 1s cubic-bezier(.16,1,.3,1) both,
+    crownFloat 3s 1s ease-in-out infinite;
+}
+
+/* Brand */
 .cp-title {
-  margin-top: 10px;
-  font-size: clamp(42px, 8vw, 90px);
-  font-weight: 900;
-  letter-spacing: 8px;
+  margin-top: 5px;
+  font-size: clamp(48px, 10vw, 100px);
+  font-weight: 1000;
+  letter-spacing: 12px;
   color: white;
   text-shadow:
-    0 0 10px rgba(255,70,190,.8),
-    0 0 35px rgba(255,70,190,.5);
-  animation: titleIntro 1.2s .3s ease both;
+    0 0 8px #fff,
+    0 0 22px #ff3cac,
+    0 0 55px rgba(255,60,190,.65);
+  animation: brandReveal 1.2s .35s cubic-bezier(.16,1,.3,1) both;
+}
+
+/* Glitch layers */
+.cp-title::before,
+.cp-title::after {
+  content: "CROWNPix";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+}
+
+.cp-title::before {
+  color: #00ffff;
+  animation: glitchA 2s 1.3s infinite;
+}
+
+.cp-title::after {
+  color: #ff176d;
+  animation: glitchB 2s 1.3s infinite;
 }
 
 .cp-subtitle {
-  margin-top: 8px;
+  margin-top: 12px;
   color: #aaa;
-  letter-spacing: 5px;
-  font-size: 13px;
-  animation: subtitleIntro 1s 1s ease both;
+  font-size: 12px;
+  letter-spacing: 6px;
+  animation: fadeUp .8s 1.2s both;
 }
 
 .cp-loader {
-  width: min(300px, 70vw);
-  height: 5px;
-  margin-top: 35px;
-  background: #222;
-  border-radius: 20px;
+  width: min(360px, 70vw);
+  height: 4px;
+  margin: 35px auto 0;
+  background: rgba(255,255,255,.1);
   overflow: hidden;
+  border-radius: 10px;
 }
 
 .cp-loader-bar {
-  width: 0%;
   height: 100%;
-  background: linear-gradient(90deg,#ff3cac,#784ba0);
-  box-shadow: 0 0 20px #ff3cac;
-  animation: loadBar 2.8s ease forwards;
+  width: 0;
+  background: linear-gradient(90deg,#ff3cac,#784ba0,#00eaff);
+  box-shadow: 0 0 18px #ff3cac;
+  animation: loading 2.6s .4s cubic-bezier(.4,0,.2,1) forwards;
 }
 
 .cp-enter {
-  margin-top: 22px;
-  color: #888;
-  font-size: 11px;
-  letter-spacing: 3px;
-  animation: blinkText 1.2s infinite;
+  margin-top: 18px;
+  color: #777;
+  font-size: 10px;
+  letter-spacing: 4px;
+  animation: blink 1s 1.5s infinite;
 }
 
-@keyframes crownIntro {
+/* Animations */
+
+@keyframes introOrb {
+  from { transform: scale(.7) translate(-100px,40px); }
+  to { transform: scale(1.3) translate(100px,-40px); }
+}
+
+@keyframes crownDrop {
   from {
     opacity: 0;
-    transform: scale(.3) rotate(-20deg);
+    transform: translateY(-100px) scale(.3) rotate(-25deg);
   }
   to {
     opacity: 1;
-    transform: scale(1) rotate(0);
+    transform: translateY(0) scale(1) rotate(0);
   }
 }
 
 @keyframes crownFloat {
-  0%,100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+  50% { transform: translateY(-12px); }
 }
 
-@keyframes titleIntro {
+@keyframes brandReveal {
   from {
     opacity: 0;
-    transform: translateY(35px);
-    letter-spacing: 25px;
+    letter-spacing: 45px;
+    transform: scale(.7);
+  }
+  to {
+    opacity: 1;
+    letter-spacing: 12px;
+    transform: scale(1);
+  }
+}
+
+@keyframes glitchA {
+  0%,90%,100% {
+    opacity: 0;
+  }
+  92% {
+    opacity: .7;
+    transform: translateX(-51%) translate(4px,-2px);
+  }
+  94% {
+    opacity: 0;
+  }
+}
+
+@keyframes glitchB {
+  0%,88%,100% {
+    opacity: 0;
+  }
+  90% {
+    opacity: .7;
+    transform: translateX(-49%) translate(-4px,2px);
+  }
+  93% {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
-    letter-spacing: 8px;
   }
 }
 
-@keyframes subtitleIntro {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+@keyframes loading {
+  to { width: 100%; }
 }
 
-@keyframes loadBar {
-  to {
-    width: 100%;
-  }
+@keyframes blink {
+  50% { opacity: .25; }
 }
 
-@keyframes blinkText {
-  50% {
-    opacity: .35;
+@media(max-width:700px) {
+  .cp-title {
+    letter-spacing: 6px;
+  }
+
+  .cp-crown {
+    font-size: 60px;
   }
 }
 </style>
 </head>
 <body>
-  <div id="cp-intro">
+<div id="cp-intro">
 
-  <div class="cp-crown">👑</div>
+  <div class="cp-intro-content">
 
-  <div class="cp-title">CROWNPix</div>
+    <div class="cp-crown">👑</div>
 
-  <div class="cp-subtitle">
-    GAMING • THUMBNAILS • CREATIVE
-  </div>
+    <div class="cp-title">CROWNPix</div>
 
-  <div class="cp-loader">
-    <div class="cp-loader-bar"></div>
-  </div>
+    <div class="cp-subtitle">
+      GAMING • THUMBNAILS • CREATIVE
+    </div>
 
-  <div class="cp-enter">
-    ENTERING THE PIXEL WORLD...
+    <div class="cp-loader">
+      <div class="cp-loader-bar"></div>
+    </div>
+
+    <div class="cp-enter">
+      INITIALIZING PIXEL WORLD...
+    </div>
+
   </div>
 
 </div>
@@ -1094,7 +1196,7 @@ window.addEventListener("load", () => {
       intro.classList.add("hide");
     }
 
-  }, 3200);
+  }, 4200);
 
 });
 </script>
