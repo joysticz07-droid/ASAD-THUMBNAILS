@@ -1220,6 +1220,62 @@ body {
     transform: translate(-50%, -50%) scale(80);
   }
 }
+  /* ===== CROWNPix PET ===== */
+
+#cp-pet {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  width: 125px;
+  z-index: 9998;
+  pointer-events: none;
+  animation: petFloat 3s ease-in-out infinite;
+}
+
+#cp-pet > img {
+  width: 100%;
+  display: block;
+}
+
+.cp-eye {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.cp-eye span {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #05020a;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  transition: transform .12s ease-out;
+}
+
+.cp-eye-left {
+  top: 38%;
+  left: 48%;
+}
+
+.cp-eye-right {
+  top: 35%;
+  left: 69%;
+}
+
+@keyframes petFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-4px);
+  }
+}
 </style>
 </head>
 <body>
@@ -1530,6 +1586,43 @@ window.addEventListener("load", () => {
   }, 3900);
 
 });
+    document.addEventListener("mousemove", (e) => {
+
+  const pet = document.getElementById("cp-pet");
+  if (!pet) return;
+
+  const eyes = pet.querySelectorAll(".cp-eye span");
+  const rect = pet.getBoundingClientRect();
+
+  const centerX = rect.left + rect.width / 2;
+  const centerY = rect.top + rect.height / 2;
+
+  const angle = Math.atan2(
+    e.clientY - centerY,
+    e.clientX - centerX
+  );
+
+  const distance = 5;
+  const moveX = Math.cos(angle) * distance;
+  const moveY = Math.sin(angle) * distance;
+
+  eyes.forEach(eye => {
+    eye.style.transform =
+      `translate(calc(-50% + ${moveX}px), calc(-50% + ${moveY}px))`;
+  });
+
+});
 </script>
+  <div id="cp-pet">
+  <img src="crownpix-pet.png" alt="CrownPix mascot">
+
+  <div class="cp-eye cp-eye-left">
+    <span></span>
+  </div>
+
+  <div class="cp-eye cp-eye-right">
+    <span></span>
+  </div>
+</div>
 </body>
 </html>
