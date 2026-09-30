@@ -1246,6 +1246,28 @@ body {
     transform: translateY(-4px);
   }
 }
+  .cp-pet-base {
+  width: 100%;
+  display: block;
+}
+
+.cp-real-eye {
+  position: absolute;
+  pointer-events: none;
+  transition: transform 0.12s ease-out;
+}
+
+.cp-eye-left {
+  left: 36.46%;
+  top: 40.69%;
+  width: 3.78%;
+}
+
+.cp-eye-right {
+  left: 41.80%;
+  top: 41.54%;
+  width: 3.90%;
+}
 </style>
 </head>
 <body>
@@ -1556,10 +1578,38 @@ window.addEventListener("load", () => {
   }, 3900);
 
 });
+    document.addEventListener("mousemove", (e) => {
+  const pet = document.getElementById("cp-pet");
+  if (!pet) return;
+
+  const rect = pet.getBoundingClientRect();
+  const eyes = pet.querySelectorAll(".cp-real-eye");
+
+  const centerX = rect.left + rect.width / 2;
+  const centerY = rect.top + rect.height / 2;
+
+  const angle = Math.atan2(
+    e.clientY - centerY,
+    e.clientX - centerX
+  );
+
+  const distance = 3;
+
+  const moveX = Math.cos(angle) * distance;
+  const moveY = Math.sin(angle) * distance;
+
+  eyes.forEach(eye => {
+    eye.style.transform =
+      `translate(${moveX}px, ${moveY}px)`;
+  });
+});
     
 </script>
   <div id="cp-pet">
-  <img src="crownpix.pet.png" alt="CrownPix mascot">
-  </div>
+  <img class="cp-pet-base" src="crownpix-pet-base.png" alt="CrownPix mascot">
+
+  <img class="cp-real-eye cp-eye-left" src="crownpix-eye-left.png" alt="">
+  <img class="cp-real-eye cp-eye-right" src="crownpix-eye-right.png" alt="">
+</div>
 </body>
 </html>
